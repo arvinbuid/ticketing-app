@@ -1,3 +1,7 @@
 export default function Page() {
-  return <h1>Ticketing App</h1>;
+  return (
+    <div>
+      <h1>Ticketing App</h1>
+    </div>
+  );
 }
