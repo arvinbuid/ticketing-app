@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ToggleMode from "./ToggleMode";
 
 export default function MainNav() {
   return (
@@ -10,7 +11,7 @@ export default function MainNav() {
       </div>
       <div className='flex items-center gap-2'>
         <Link href='/'>Logout</Link>
-        <Link href='/tickets'>Dark Mode</Link>
+        <ToggleMode />
       </div>
     </section>
   );
