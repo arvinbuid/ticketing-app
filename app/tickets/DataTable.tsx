@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import TicketStatusBadge from '@/components/TicketStatusBadge';
 
 interface DataTableProps {
   tickets: Ticket[];
@@ -19,7 +20,9 @@ export default function DataTable({ tickets }: DataTableProps) {
         <TableHeader>
           <TableRow>
             <TableHead>Title</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>
+              <div className="flex justify-center mr-3">Status</div>
+            </TableHead>
             <TableHead>Priority</TableHead>
             <TableHead>Created At</TableHead>
           </TableRow>
@@ -29,7 +32,11 @@ export default function DataTable({ tickets }: DataTableProps) {
             ? tickets.map((ticket) => (
                 <TableRow key={ticket.id}>
                   <TableCell>{ticket.title}</TableCell>
-                  <TableCell>{ticket.status}</TableCell>
+                  <TableCell>
+                    <div className="flex justify-center mr-3">
+                      <TicketStatusBadge status={ticket.status} />
+                    </div>
+                  </TableCell>
                   <TableCell>{ticket.priority}</TableCell>
                   <TableCell>
                     {ticket.createdAt.toLocaleDateString('en-PH', {
