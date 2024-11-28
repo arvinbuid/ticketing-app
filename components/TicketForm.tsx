@@ -21,10 +21,15 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { Ticket } from '@prisma/client';
 
 type TicketFormData = z.infer<typeof ticketSchema>;
 
-export default function TicketForm() {
+interface TicketFormProps {
+  ticket?: Ticket;
+}
+
+export default function TicketForm({ ticket }: TicketFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -39,9 +44,16 @@ export default function TicketForm() {
       setIsSubmitting(true);
       setError('');
 
-      await axios.post('/api/tickets', values);
-      setIsSubmitting(false);
-      toast.success('New ticket created successfully🎉');
+      // If there is ticket, proceed to edit, otherwise create a new ticket
+      if (ticket) {
+        await axios.patch('/api/tickets/' + ticket.id, values);
+        toast.success('Ticket updated successfully😎');
+        setIsSubmitting(false);
+      } else {
+        await axios.post('/api/tickets', values);
+        toast.success('New ticket created successfully🎉');
+        setIsSubmitting(false);
+      }
 
       router.push('/tickets');
       router.refresh();
@@ -52,13 +64,19 @@ export default function TicketForm() {
     }
   }
 
+  if (error) {
+    console.log(error);
+  }
+
   return (
     <div className="rounded-md border w-full p-5">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* Title */}
           <FormField
             control={form.control}
             name="title"
+            defaultValue={ticket?.title}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Ticket Title</FormLabel>
@@ -68,18 +86,23 @@ export default function TicketForm() {
               </FormItem>
             )}
           />
+
+          {/* Description */}
           <Controller
             control={form.control}
             name="description"
+            defaultValue={ticket?.description}
             render={({ field }) => (
               <SimpleMDE placeholder="Description" {...field} />
             )}
           />
+
           <div className="flex gap-6">
             {/* Status */}
             <FormField
               control={form.control}
               name="status"
+              defaultValue={ticket?.status}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
@@ -89,7 +112,10 @@ export default function TicketForm() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Status" />
+                        <SelectValue
+                          placeholder="Status"
+                          defaultValue={ticket?.status}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -106,6 +132,7 @@ export default function TicketForm() {
             <FormField
               control={form.control}
               name="priority"
+              defaultValue={ticket?.priority}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Priority</FormLabel>
@@ -115,7 +142,10 @@ export default function TicketForm() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Priority" />
+                        <SelectValue
+                          placeholder="Priority"
+                          defaultValue={ticket?.priority}
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -130,7 +160,7 @@ export default function TicketForm() {
           </div>
 
           <Button type="submit" disabled={isSubmitting}>
-            Submit
+            {ticket ? 'Update ticket' : 'Create new ticket'}
           </Button>
         </form>
       </Form>
