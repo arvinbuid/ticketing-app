@@ -2,6 +2,7 @@
 
 import { ticketSchema } from '@/ValidationSchemas/ticket';
 import { z } from 'zod';
+import axios from 'axios';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 
@@ -16,16 +17,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+import { useState } from 'react';
+import { Button } from './ui/button';
+import { useRouter } from 'next/navigation';
 
 type TicketFormData = z.infer<typeof ticketSchema>;
 
 export default function TicketForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
   const form = useForm<TicketFormData>({
     resolver: zodResolver(ticketSchema),
   });
 
+  const router = useRouter();
+
   async function onSubmit(values: z.infer<typeof ticketSchema>) {
-    console.log(values);
+    try {
+      setIsSubmitting(true);
+      setError('');
+
+      await axios.post('/api/tickets', values);
+      setIsSubmitting(false);
+
+      router.push('/tickets');
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+      setError('Error submitting ticket. Please try again');
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -46,8 +68,10 @@ export default function TicketForm() {
           />
           <Controller
             control={form.control}
-            name="title"
-            render={({ field }) => <SimpleMDE {...field} />}
+            name="description"
+            render={({ field }) => (
+              <SimpleMDE placeholder="Description" {...field} />
+            )}
           />
           <div className="flex gap-6">
             {/* Status */}
@@ -79,7 +103,7 @@ export default function TicketForm() {
             {/* Priority */}
             <FormField
               control={form.control}
-              name="status"
+              name="priority"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Priority</FormLabel>
@@ -102,6 +126,10 @@ export default function TicketForm() {
               )}
             />
           </div>
+
+          <Button type="submit" disabled={isSubmitting}>
+            Submit
+          </Button>
         </form>
       </Form>
     </div>
