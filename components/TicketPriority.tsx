@@ -13,7 +13,7 @@ const priorityMap: Record<Priority, { label: string; level: 1 | 2 | 3 }> = {
 
 export default function TicketPriority({ priority }: TicketPriorityProps) {
   return (
-    <>
+    <div className="flex">
       <Flame
         className={`${
           priorityMap[priority].level >= 1 ? 'text-red-500' : 'text-muted'
@@ -29,6 +29,6 @@ export default function TicketPriority({ priority }: TicketPriorityProps) {
           priorityMap[priority].level >= 3 ? 'text-red-500' : 'text-muted'
         }`}
       />
-    </>
+    </div>
   );
 }
