@@ -54,7 +54,7 @@ export default function TicketDetail({ ticket }: TicketDetailProps) {
       </Card>
       <div className="flex lg:flex-col gap-2">
         <Link
-          href={`tickets/edit/${ticket.id}`}
+          href={`/tickets/edit/${ticket.id}`}
           className={buttonVariants({ variant: 'default' })}
         >
           Edit Ticket
