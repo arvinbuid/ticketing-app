@@ -20,6 +20,7 @@ import {
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 type TicketFormData = z.infer<typeof ticketSchema>;
 
@@ -40,6 +41,7 @@ export default function TicketForm() {
 
       await axios.post('/api/tickets', values);
       setIsSubmitting(false);
+      toast.success('New ticket created successfully🎉');
 
       router.push('/tickets');
       router.refresh();
