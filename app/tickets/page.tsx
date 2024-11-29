@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import Pagination from '@/components/Pagination';
 import StatusFilter from '@/components/StatusFilter';
-import { Status } from '@prisma/client';
+import { Status, Ticket } from '@prisma/client';
 
-interface SearchParams {
+export interface SearchParams {
   status: Status;
   page: string;
+  orderBy: keyof Ticket;
 }
 
 export default async function Tickets({
@@ -18,6 +19,8 @@ export default async function Tickets({
 }) {
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 10;
+
+  const orderBy = searchParams.orderBy ? searchParams.orderBy : 'createdAt';
 
   // SORTING
   const statuses = Object.values(Status);
@@ -42,6 +45,9 @@ export default async function Tickets({
   const count = await prisma.ticket.count({ where });
   const tickets = await prisma.ticket.findMany({
     where,
+    orderBy: {
+      [orderBy]: 'asc',
+    },
     take: pageSize,
     skip: (page - 1) * pageSize,
   });
@@ -57,7 +63,7 @@ export default async function Tickets({
         </Link>
         <StatusFilter />
       </div>
-      <DataTable tickets={tickets} />
+      <DataTable tickets={tickets} searchParams={searchParams} />
       <Pagination itemCount={count} pageSize={pageSize} currentPage={page} />
     </div>
   );
