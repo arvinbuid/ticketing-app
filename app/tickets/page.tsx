@@ -10,6 +10,7 @@ export interface SearchParams {
   status: Status;
   page: string;
   orderBy: keyof Ticket;
+  orderDirection: 'asc' | 'desc';
 }
 
 export default async function Tickets({
@@ -21,6 +22,13 @@ export default async function Tickets({
   const pageSize = 10;
 
   const orderBy = searchParams.orderBy ? searchParams.orderBy : 'createdAt';
+
+  // Default to 'desc' if orderDirection is not provided or invalid
+  const orderDirection =
+    searchParams.orderDirection === 'asc' ||
+    searchParams.orderDirection === 'desc'
+      ? searchParams.orderDirection
+      : 'desc';
 
   // SORTING
   const statuses = Object.values(Status);
@@ -46,7 +54,7 @@ export default async function Tickets({
   const tickets = await prisma.ticket.findMany({
     where,
     orderBy: {
-      [orderBy]: 'asc',
+      [orderBy]: orderDirection,
     },
     take: pageSize,
     skip: (page - 1) * pageSize,

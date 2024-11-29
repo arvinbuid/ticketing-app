@@ -26,41 +26,91 @@ export default function DataTable({ tickets, searchParams }: DataTableProps) {
         <TableHeader>
           <TableRow>
             <TableHead>
-              <Link href={{ query: { ...searchParams, orderBy: 'title' } }}>
+              <Link
+                href={{
+                  query: {
+                    ...searchParams,
+                    orderBy: 'title',
+                    orderDirection:
+                      searchParams.orderDirection === 'asc' ? 'desc' : 'asc',
+                  },
+                }}
+              >
                 Title
               </Link>
               {'title' === searchParams.orderBy && (
-                <ArrowDown className="inline p-1" />
+                <ArrowDown
+                  className={`inline p-1 ${
+                    searchParams.orderDirection === 'asc' ? 'rotate-180' : ''
+                  }`}
+                />
               )}
             </TableHead>
             <TableHead>
               <div className="flex justify-center mr-3">
-                <Link href={{ query: { ...searchParams, orderBy: 'status' } }}>
+                <Link
+                  href={{
+                    query: {
+                      ...searchParams,
+                      orderBy: 'status',
+                      orderDirection:
+                        searchParams.orderDirection === 'asc' ? 'desc' : 'asc',
+                    },
+                  }}
+                >
                   Status
                 </Link>
                 {'status' === searchParams.orderBy && (
-                  <ArrowDown className="inline p-1" />
+                  <ArrowDown
+                    className={`inline p-1 ${
+                      searchParams.orderDirection === 'asc' ? 'rotate-180' : ''
+                    }`}
+                  />
                 )}
               </div>
             </TableHead>
             <TableHead>
               <div className="flex justify-center mr-3">
                 <Link
-                  href={{ query: { ...searchParams, orderBy: 'priority' } }}
+                  href={{
+                    query: {
+                      ...searchParams,
+                      orderBy: 'priority',
+                      orderDirection:
+                        searchParams.orderDirection === 'asc' ? 'desc' : 'asc',
+                    },
+                  }}
                 >
                   Priority
                 </Link>
                 {'priority' === searchParams.orderBy && (
-                  <ArrowDown className="inline p-1" />
+                  <ArrowDown
+                    className={`inline p-1 ${
+                      searchParams.orderDirection === 'asc' ? 'rotate-180' : ''
+                    }`}
+                  />
                 )}
               </div>
             </TableHead>
             <TableHead>
-              <Link href={{ query: { ...searchParams, orderBy: 'createdAt' } }}>
+              <Link
+                href={{
+                  query: {
+                    ...searchParams,
+                    orderBy: 'createdAt',
+                    orderDirection:
+                      searchParams.orderDirection === 'asc' ? 'desc' : 'asc',
+                  },
+                }}
+              >
                 Created At
               </Link>
               {'createdAt' === searchParams.orderBy && (
-                <ArrowDown className="inline p-1" />
+                <ArrowDown
+                  className={`inline p-1 ${
+                    searchParams.orderDirection === 'asc' ? 'rotate-180' : ''
+                  }`}
+                />
               )}
             </TableHead>
           </TableRow>
