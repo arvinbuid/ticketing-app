@@ -59,7 +59,11 @@ export default function DeleteTicket({ ticketId }: { ticketId: number }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction disabled={isDeleting} onClick={deleteTicket}>
+            <AlertDialogAction
+              disabled={isDeleting}
+              onClick={deleteTicket}
+              className={buttonVariants({ variant: 'destructive' })}
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
