@@ -22,8 +22,6 @@ export default function DeleteTicket({ ticketId }: { ticketId: number }) {
   const [error, setError] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
 
-  console.log(ticketId);
-
   const router = useRouter();
 
   const deleteTicket = async function () {
