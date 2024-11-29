@@ -64,10 +64,6 @@ export default function TicketForm({ ticket }: TicketFormProps) {
     }
   }
 
-  if (error) {
-    console.log(error);
-  }
-
   return (
     <div className="rounded-md border w-full p-5">
       <Form {...form}>
@@ -164,6 +160,7 @@ export default function TicketForm({ ticket }: TicketFormProps) {
           </Button>
         </form>
       </Form>
+      <p className="text-destructive">{error}</p>
     </div>
   );
 }
