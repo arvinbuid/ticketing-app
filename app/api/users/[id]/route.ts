@@ -23,12 +23,15 @@ export async function PATCH(request: NextRequest, { params }: ParamsProps) {
     return NextResponse.json({ error: 'User Not Found' }, { status: 404 });
   }
 
-  if (body?.password) {
+  // Only hash password if the password exists and not empty string, otherwise delete it
+  if (body?.password && body.password !== '') {
     const hashPassword = await bcrypt.hash(body.password, 11);
     body.password = hashPassword;
+  } else {
+    delete body.password;
   }
 
-  // IF there is no same username, continue and throw error if there is duplicate username
+  // If there is no same username, continue and throw error if there is duplicate username
   if (user.username !== body.username) {
     const duplicateUsername = await prisma.user.findUnique({
       where: {
