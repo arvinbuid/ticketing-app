@@ -153,7 +153,7 @@ export default function UserForm({ user }: UserFormProps) {
           </Button>
         </form>
       </Form>
-      <p className="text-destructive">{error}</p>
+      <p className="text-destructive mt-3">{error}</p>
     </div>
   );
 }
