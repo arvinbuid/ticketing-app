@@ -53,7 +53,7 @@ export default function UserForm({ user }: UserFormProps) {
         setIsSubmitting(false);
       }
 
-      router.push('/tickets');
+      router.push('/users');
       router.refresh();
     } catch (error) {
       console.log(error);
