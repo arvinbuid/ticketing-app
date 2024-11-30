@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+import toast from 'react-hot-toast';
 
 export default function AssignTicket({
   users,
@@ -29,6 +30,7 @@ export default function AssignTicket({
       await axios.patch(`/api/tickets/${ticket.id}`, {
         assignedToUserId: userId === '0' ? null : userId,
       });
+      toast.success('Ticket assigned to user successfully.');
       setIsAssigning(false);
     } catch (err) {
       console.log(err);
