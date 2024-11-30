@@ -12,9 +12,13 @@ const options: NextAuthOptions = {
         username: {
           label: 'Username',
           type: 'text',
-          placeholder: 'Username...',
+          defaultValue: 'admin',
         },
-        password: { label: 'Password', type: 'password' },
+        password: {
+          label: 'Password',
+          type: 'password',
+          defaultValue: 'password',
+        },
       },
       authorize: async (credentials) => {
         const user = await prisma.user.findUnique({

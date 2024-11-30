@@ -57,7 +57,7 @@ export default function UserForm({ user }: UserFormProps) {
       router.refresh();
     } catch (error) {
       console.log(error);
-      setError('Error submitting ticket. Please try again');
+      setError('Error updating user. Please try again!');
       setIsSubmitting(false);
     }
   }

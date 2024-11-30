@@ -13,7 +13,12 @@ export default async function MainNav() {
 
       <div className="flex items-center gap-2">
         {session ? (
-          <Link href="/api/auth/signout?callback=/">Logout</Link>
+          <div className="flex gap-3">
+            <h1 className="hover:cursor-default">
+              Welcome {session?.user.name}
+            </h1>
+            <Link href="/api/auth/signout?callback=/">Logout</Link>
+          </div>
         ) : (
           <Link href="/api/auth/signin">Login</Link>
         )}

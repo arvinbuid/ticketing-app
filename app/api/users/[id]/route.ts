@@ -2,12 +2,32 @@ import bcrypt from 'bcryptjs';
 import { NextRequest, NextResponse } from 'next/server';
 import { userSchema } from '@/ValidationSchemas/users';
 import prisma from '@/prisma/db';
+import { getServerSession } from 'next-auth';
+import options from '../../auth/[...nextauth]/options';
 
 interface ParamsProps {
   params: { id: string };
 }
 
 export async function PATCH(request: NextRequest, { params }: ParamsProps) {
+  const session = await getServerSession(options);
+
+  if (!session) {
+    return NextResponse.json(
+      { error: 'Unauthorized action. Please login to continue' },
+      { status: 401 }
+    );
+  }
+
+  if (session.user.role !== 'ADMIN') {
+    return NextResponse.json(
+      {
+        error: 'Invalid privileges. Only Admin can update a user!',
+      },
+      { status: 401 }
+    );
+  }
+
   const body = await request.json();
   const validation = userSchema.safeParse(body);
 
