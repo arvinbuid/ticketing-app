@@ -1,5 +1,5 @@
 import prisma from '@/prisma/db';
-import { ticketSchema } from '@/ValidationSchemas/ticket';
+import { ticketPatchSchema } from '@/ValidationSchemas/ticket';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface ParamsProps {
@@ -8,10 +8,14 @@ interface ParamsProps {
 
 export async function PATCH(request: NextRequest, { params }: ParamsProps) {
   const body = await request.json();
-  const validation = ticketSchema.safeParse(body);
+  const validation = ticketPatchSchema.safeParse(body);
 
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
+  }
+
+  if (body?.assignedToUserId) {
+    body.assignedToUserId = parseInt(body.assignedToUserId);
   }
 
   // Get ticket from db
