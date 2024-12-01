@@ -1,6 +1,14 @@
 import DashChart from '@/components/DashChart';
 import DashRecentTickets from '@/components/DashRecentTickets';
 import prisma from '@/prisma/db';
+import { Status } from '@prisma/client';
+
+type GroupedTicket = {
+  status: Status;
+  _count: {
+    id: number;
+  };
+};
 
 export default async function Dashboard() {
   const tickets = await prisma.ticket.findMany({
@@ -24,7 +32,7 @@ export default async function Dashboard() {
     },
   });
 
-  const data = groupTicket.map((item) => {
+  const data = groupTicket.map((item: GroupedTicket) => {
     return {
       status: item.status,
       total: item._count.id,
