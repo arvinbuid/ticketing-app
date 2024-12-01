@@ -59,7 +59,9 @@ export default function TicketForm({ ticket }: TicketFormProps) {
       router.refresh();
     } catch (error) {
       console.log(error);
-      setError('Error submitting ticket. Please try again');
+      toast.error(
+        'Unexpected error. You might be unauthorized or invalid privileges.'
+      );
       setIsSubmitting(false);
     }
   }

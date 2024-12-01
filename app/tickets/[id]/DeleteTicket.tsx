@@ -36,7 +36,9 @@ export default function DeleteTicket({ ticketId }: { ticketId: number }) {
     } catch (err) {
       console.log(err);
       setIsDeleting(false);
-      setError('There was an error deleting ticket.');
+      toast.error(
+        'Error deleting ticket. You might be unauthorized or invalid privileges.'
+      );
     }
   };
 

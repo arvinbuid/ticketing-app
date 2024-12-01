@@ -34,7 +34,9 @@ export default function AssignTicket({
       setIsAssigning(false);
     } catch (err) {
       console.log(err);
-      setError('Error assigning ticket');
+      toast.error(
+        'Error assigning ticket. You might be unauthorized or invalid privileges.'
+      );
     }
   };
 
