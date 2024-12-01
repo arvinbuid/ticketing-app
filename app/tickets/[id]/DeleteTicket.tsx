@@ -27,6 +27,7 @@ export default function DeleteTicket({ ticketId }: { ticketId: number }) {
   const deleteTicket = async function () {
     try {
       setIsDeleting(true);
+      setError('');
 
       await axios.delete('/api/tickets/' + ticketId);
       toast.success('Ticket deleted successfully.');
