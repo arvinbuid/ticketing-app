@@ -26,10 +26,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env.prod
 .env*.local
 .env
 
-# vercel
+# vercel    
 .vercel
 
 # typescript
