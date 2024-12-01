@@ -1,4 +1,4 @@
-import DashRecentCharts from '@/components/DashRecentCharts';
+import DashChart from '@/components/DashChart';
 import DashRecentTickets from '@/components/DashRecentTickets';
 import prisma from '@/prisma/db';
 
@@ -24,6 +24,13 @@ export default async function Dashboard() {
     },
   });
 
+  const data = groupTicket.map((item) => {
+    return {
+      status: item.status,
+      total: item._count.id,
+    };
+  });
+
   return (
     <div>
       <div className="grid md:grid-cols-2 gap-4 mt-4">
@@ -31,7 +38,7 @@ export default async function Dashboard() {
           <DashRecentTickets tickets={tickets} />
         </div>
         <div>
-          <DashRecentCharts />
+          <DashChart data={data} />
         </div>
       </div>
     </div>
