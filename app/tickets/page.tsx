@@ -5,6 +5,8 @@ import { buttonVariants } from '@/components/ui/button';
 import Pagination from '@/components/Pagination';
 import StatusFilter from '@/components/StatusFilter';
 import { Status, Ticket } from '@prisma/client';
+import { getServerSession } from 'next-auth';
+import options from '../api/auth/[...nextauth]/options';
 
 export interface SearchParams {
   status: Status;
@@ -18,6 +20,7 @@ export default async function Tickets({
 }: {
   searchParams: SearchParams;
 }) {
+  const session = await getServerSession(options);
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 10;
 
@@ -63,12 +66,25 @@ export default async function Tickets({
   return (
     <div>
       <div className="flex justify-between">
-        <Link
-          href="tickets/new"
-          className={buttonVariants({ variant: 'default' })}
-        >
-          Create new ticket
-        </Link>
+        {session?.user.role ? (
+          <Link
+            href="tickets/new"
+            className={buttonVariants({ variant: 'default' })}
+          >
+            Create new ticket
+          </Link>
+        ) : (
+          <span
+            className={
+              buttonVariants({
+                variant: 'default',
+              }) + ' cursor-not-allowed opacity-50'
+            }
+            title="Please log in to create a ticket"
+          >
+            Login to create ticket
+          </span>
+        )}
         <StatusFilter />
       </div>
       <DataTable tickets={tickets} searchParams={searchParams} />
