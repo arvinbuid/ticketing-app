@@ -17,10 +17,10 @@ export default function DashChart({ data }: DashChartProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Ticket Counts</CardTitle>
+        <CardTitle className="mb-4">Ticket Counts</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={377}>
+        <ResponsiveContainer width="100%" height={360}>
           <BarChart data={data}>
             <XAxis
               dataKey="status"
